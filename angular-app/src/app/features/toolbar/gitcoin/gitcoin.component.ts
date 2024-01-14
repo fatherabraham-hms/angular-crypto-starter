@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-gitcoin',
   standalone: true,
-  imports: [],
+  imports: [
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './gitcoin.component.html',
   styleUrl: './gitcoin.component.scss'
 })
