@@ -100,6 +100,11 @@ $mat-dark-theme: mat.define-dark-theme((
   @include mat.all-component-colors($mat-dark-theme);
 }
 
+.page-wrapper {
+  height: 100vh;
+  background-color: black;
+}
+
 /** OVERRIDES **/
 body {
   margin: 0px;

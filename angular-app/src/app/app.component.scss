@@ -1,0 +1,6 @@
+@use './src/app/styles/variables';
+
+.content {
+  color: variables.$primary-text;
+  padding: variables.$padding-lg;
+}
