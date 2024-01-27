@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -15,7 +15,8 @@ import {CommonModule} from "@angular/common";
     MatButtonModule,
   ],
   templateUrl: './action-buttons.component.html',
-  styleUrl: './action-buttons.component.scss'
+  styleUrl: './action-buttons.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ActionButtonsComponent {
   constructor(public userAuthService: UserAuthService) {
