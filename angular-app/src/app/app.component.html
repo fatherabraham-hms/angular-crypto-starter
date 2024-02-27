@@ -5,7 +5,8 @@
 
   <div class="content">
     <h1>Main Content</h1>
-<!--    <pre>{{ _account$ | json }}</pre>-->
+    <pre>Wallet Account User: {{ account | json }}</pre>
+    <pre>Latest Block in OP Sepolia: {{ latestBlock$ | async  }}</pre>
     <router-outlet></router-outlet>
   </div>
 </main>

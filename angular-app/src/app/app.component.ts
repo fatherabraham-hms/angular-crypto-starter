@@ -6,6 +6,7 @@ import {ActionButtonsComponent} from "./features/toolbar/action-buttons/action-b
 import {Web3Service} from "./core/services/web3.service";
 import {MatButtonModule} from "@angular/material/button";
 import {Observable} from "rxjs";
+import {AlchemyService} from "./core/services/alchemy.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ import {Observable} from "rxjs";
     GitcoinComponent,
   ActionButtonsComponent],
   providers: [
-    Web3Service
+    Web3Service,
+    AlchemyService
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -24,12 +26,16 @@ import {Observable} from "rxjs";
 })
 export class AppComponent implements OnInit {
   title = 'angular-app';
-  _account$: Observable<any>;
-  constructor(private web3Service: Web3Service) {
-    this._account$ = this.web3Service.account$;
+  latestBlock$: Observable<any>;
+  account: any;
+
+  constructor(public web3Service: Web3Service, private alchemyService: AlchemyService) {
+    this.latestBlock$ = this.alchemyService.getLatestBlock();
+    this.account = null;
   }
 
   ngOnInit() {
-
+    this.latestBlock$.subscribe((latest) => console.log(latest));
+    this.account = this.web3Service.getAccountOnce();
   }
 }

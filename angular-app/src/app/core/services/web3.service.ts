@@ -6,8 +6,7 @@ import {Web3ModalOptions} from "@web3modal/wagmi1/dist/types/src/client";
 import { environment } from '../../../environments/environment';
 import {BehaviorSubject, Observable, of} from "rxjs";
 import { getAccount } from '@wagmi/core';
-
-const projectId = environment.WAGMI_PROJ_ID;
+import {isEqual} from "lodash-es";
 
 type Account = {
   address: string;
@@ -26,8 +25,10 @@ export class Web3Service {
   chains = [mainnet, arbitrum];
   web3modal: Web3Modal | any;
   account$: BehaviorSubject<any | null> = new BehaviorSubject<any | null>(null);
+  readonly WAGMI_PROJ_ID;
 
   constructor() {
+    this.WAGMI_PROJ_ID = environment.WAGMI_PROJ_ID;
     this.init();
   }
 
@@ -40,9 +41,9 @@ export class Web3Service {
       icons: ['https://avatars.githubusercontent.com/u/37784886']
     }
 
-    const wagmiConfig = defaultWagmiConfig({ chains: this.chains, projectId, metadata });
+    const wagmiConfig = defaultWagmiConfig({ chains: this.chains, projectId: this.WAGMI_PROJ_ID, metadata });
 
-    const modalOptions:Web3ModalOptions =  { wagmiConfig, projectId, chains: this.chains };
+    const modalOptions:Web3ModalOptions =  { wagmiConfig, projectId: this.WAGMI_PROJ_ID, chains: this.chains };
     this.web3modal = createWeb3Modal(modalOptions);
 
     let accountCache: Account = {
@@ -55,15 +56,15 @@ export class Web3Service {
       status: ''
     };
     this.web3modal.subscribeState((newState: any) => {
-      const upd = this.getAccount();
-      if (upd !== accountCache) {
+      const upd = this.getAccountOnce();
+      if (isEqual(upd, accountCache)) {
         this.account$.next(upd);
       }
       accountCache = upd as Account;
     });
   }
 
-  getAccount() {
+  getAccountOnce() {
     return getAccount();
   }
 }
